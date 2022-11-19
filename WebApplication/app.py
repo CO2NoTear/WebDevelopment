@@ -1,14 +1,38 @@
 from flask import Flask, request, redirect, abort, \
         render_template, url_for
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+from flask_bootstrap import Bootstrap
 
 app = Flask('__name__')
+app.config['SECRET_KEY'] = 'qomolangma'
+bootstrap = Bootstrap(app)
+
+class NameForm(FlaskForm):
+    name = StringField("What's your name?", validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+
 
 @app.route('/')
 def indexPage():
-    # simple request instance
-    user_agent = request.headers.get('User-Agent')
-    return '<p> Welcome back to server Qomolangma.\n \
-            Your browser is \n%s, right?</p>' % user_agent
+    ## simple request instance
+    #user_agent = request.headers.get('User-Agent')
+    #return '<p> Welcome back to server Qomolangma.\n \
+    #        Your browser is \n%s, right?</p>' % user_agent
+    return render_template('extendedTemplate.html')
+
+@app.route('/login', methods=['GET','POST'])
+def loginPage():
+    name = None
+    form = NameForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ''
+
+    return render_template('login.html', form = form, name=name)
 
 @app.route('/user/<name>')
 #it gave a var name to func
