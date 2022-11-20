@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页-珠峰中途营地</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='CSS/official_style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='icon/css/font-awesome.css')}}">
+    <style>
+        [id="mainpart"]{
+            margin-left: 1rem;
+            margin-top: 1rem;
+        }
+        a:link{
+            color: black;
+        }
+        a:visited{
+            color: black;
+        }
+        a:hover{
+            color: skyblue;
+        }
+        a:active{
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <!--头顶-->
+        <div id="toolbar" style="position: fixed; top: 0rem; left: 0rem; min-width: 100%;width:max-content; z-index: 1993;">
+        <a href=""><img src={{url_for('static',filename="pics/logo.png")}} alt="回到中途营地" height="48"></a>
+
+        <area shape="circle" coords="1458,32,18" href="" alt="个人主页">
+
+        </div>
+
+
+    <!--搜索框-->>
+    <form action="https://www.bilibili.com/" target="_self" method="get">
+        <div class="search-box">
+                <a class="search-btn" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
+                <input type="text" class="search-txt" placeholder="搜索" />
+            <div class="search-line"></div>
+        </div>
+    </form>
+
+    <div id="leftpart">
+    <!--新闻区-->
+    <div id="mainpart" style="top: 0rem; left: 0rem; min-width: 100%;width:max-content; z-index: 1993;">
+        <a href="">Hollow</a>
+    </div>
+
+    <!--博客区-->
+    <div id="maintext">
+
+    </div>
+    </div>    
+
+    <div id="rightpart" style="position:absolute;top: 5.5rem;">
+        <!--登录-->
+        <div id="mainpart">
+            <form action="" target="_self" method="post">
+            账号：<input type="text" name="UID"><br>
+            密码：<input type="password" name="UPassword"><br>
+            <div style="margin:0 auto;width:200px;">
+                <input class="submit" id="btn" type="submit" value="登录" />
+            </div>
+            </form>
+            <p>
+                userID:{{userid}}
+                password:{{password}}
+            </p>
+        </div>
+    </div>
+</body>
+</html>

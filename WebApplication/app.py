@@ -1,38 +1,44 @@
 from flask import Flask, request, redirect, abort, \
         render_template, url_for
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap
+from MyForms import LoginForm
 
 app = Flask('__name__')
 app.config['SECRET_KEY'] = 'qomolangma'
 bootstrap = Bootstrap(app)
 
-class NameForm(FlaskForm):
-    name = StringField("What's your name?", validators=[DataRequired()])
-    submit = SubmitField('Submit')
+#class NameForm(FlaskForm):
+#   name = StringField("What's your name?", validators=[DataRequired()])
+#   submit = SubmitField('Submit')
+#所有表单放到MyForms.py文件里面，用Import导入
 
 
 
-
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def indexPage():
     ## simple request instance
     #user_agent = request.headers.get('User-Agent')
     #return '<p> Welcome back to server Qomolangma.\n \
     #        Your browser is \n%s, right?</p>' % user_agent
-    return render_template('extendedTemplate.html')
+    if request.method == 'POST':
+        UID = request.form['UID']
+        UPassword = request.form['UPassword']
+        return render_template('Index.html',userid=UID,password=UPassword)
+    else:
+        return render_template('Index.html',userid='stranger',password='unknown')
 
 @app.route('/login', methods=['GET','POST'])
 def loginPage():
     name = None
-    form = NameForm()
+    password = None
+    form = LoginForm()
     if form.validate_on_submit():
         name = form.name.data
+        password = form.password.data
+        form.password.data = ''
         form.name.data = ''
 
-    return render_template('login.html', form = form, name=name)
+    return render_template('login.html', form = form, name=name, password=password)
 
 @app.route('/user/<name>')
 #it gave a var name to func

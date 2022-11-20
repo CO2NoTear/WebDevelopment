@@ -1,3 +1,4 @@
 {% import "bootstrap/wtf.html" as wtf %}
-<h1>hello,{% if name %}{{name}}{% else %}Stranger{% endif %}!</h1>
+<h1>Hello,{% if name %}{{name}}{% else %}Stranger{% endif %}!</h1>
+{% if password %}<h1>You have just input your password as {{password}}</h1>{%endif%}
 {{ wtf.quick_form(form) }}
