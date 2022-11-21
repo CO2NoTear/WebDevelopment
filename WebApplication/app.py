@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, abort, \
-        render_template, url_for
+        render_template, url_for, session, flash
 from flask_bootstrap import Bootstrap
 from MyForms import LoginForm
 
@@ -21,11 +21,11 @@ def indexPage():
     #return '<p> Welcome back to server Qomolangma.\n \
     #        Your browser is \n%s, right?</p>' % user_agent
     if request.method == 'POST':
-        UID = request.form['UID']
-        UPassword = request.form['UPassword']
-        return render_template('Index.html',userid=UID,password=UPassword)
+        session['UID'] = request.form['UID']
+        session['UPassword'] = request.form['UPassword']
+        return redirect(url_for('indexPage'))
     else:
-        return render_template('Index.html',userid='stranger',password='unknown')
+        return render_template('Index.html',userid=session.get('UID'),password=session.get('UPassword'))
 
 @app.route('/login', methods=['GET','POST'])
 def loginPage():
@@ -33,12 +33,14 @@ def loginPage():
     password = None
     form = LoginForm()
     if form.validate_on_submit():
-        name = form.name.data
-        password = form.password.data
-        form.password.data = ''
-        form.name.data = ''
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash('oops, looks like you just changed your name.')
+        session['name'] = form.name.data
+        session['password'] = form.password.data
+        return redirect(url_for('loginPage'))
 
-    return render_template('login.html', form = form, name=name, password=password)
+    return render_template('login.html', form = form, name=session.get('name'), password=session.get('password'))
 
 @app.route('/user/<name>')
 #it gave a var name to func
