@@ -1,18 +1,22 @@
 from flask import Flask, request, redirect, abort, \
         render_template, url_for, session, flash
 from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
+#所有表单放到MyForms.py文件里面，用Import导入
 from MyForms import LoginForm
+from BuildConnection import SQL_URL
 
 app = Flask('__name__')
+#设置session私钥
 app.config['SECRET_KEY'] = 'qomolangma'
+#设置sqlalchemy连接路径
+app.config['SQLALCHEMY_DATABASE_URL'] = SQL_URL
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+
+#初始化bootstrap
 bootstrap = Bootstrap(app)
-
-#class NameForm(FlaskForm):
-#   name = StringField("What's your name?", validators=[DataRequired()])
-#   submit = SubmitField('Submit')
-#所有表单放到MyForms.py文件里面，用Import导入
-
-
+#初始化sqlalchemy
+db = SQLAlchemy(app)
 
 @app.route('/', methods=['POST', 'GET'])
 def indexPage():
