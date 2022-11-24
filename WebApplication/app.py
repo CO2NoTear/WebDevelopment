@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 #所有表单放到MyForms.py文件里面，用Import导入
 from MyForms import LoginForm
 from BuildConnection import SQL_URL
+from Models import user_table, passage_table, comment_table, tool_table
 
 app = Flask('__name__')
 #设置session私钥
