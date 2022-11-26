@@ -1,4 +1,3 @@
-from app import db
 from sqlalchemy.ext.automap import automap_base
 from BuildConnection import engine
 

@@ -1,10 +1,5 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% if known %}<h1> I remember you!{% endif %}
-<h1>Hello,{% if name %}{{name}}{% else %}Stranger{% endif %}!</h1>
-{% if password %}<h1>You have just input your password as {{password}}</h1>{%endif%}
-<h1>Welcome, {% if user_type == '1' %} user {% elif user_type == '2' %}administrator{% endif %}</h1>
-
 {% block content %}
 <div class="container">
 	{% for message in get_flashed_messages() %}
@@ -17,4 +12,3 @@
 </div>
 {% endblock %}
 {{ wtf.quick_form(form) }}
-<a href="/register">Register</a>

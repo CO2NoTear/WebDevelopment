@@ -9,8 +9,7 @@ user_zymm = User(UName='zymm',
         UPassword='password',
         UType=1,
         UIntro='test flush')
-result = session.query(User).filter(User.UName=='zymm').first()
-session.delete(result)
+session.add(user_co2)
 session.commit()
 result = session.query(User)
 print(result.all())
