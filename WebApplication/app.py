@@ -43,7 +43,7 @@ def loginPage():
         #新用户
         if user is None:
             session['known'] = False
-            flush('User not exists!')
+            flash('User not exists!')
         else:
             session['known'] = True
             if user.UPassword == form.password.data:
@@ -69,6 +69,8 @@ def registerPage():
             flash('Register successfully!')
         else:
             flash('User already exists!')
+    else:
+        flash('Please fill all the blanks!')
     return render_template('register.html', form = form)
 #用户界面
 @app.route('/user/<name>')
