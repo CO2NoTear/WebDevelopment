@@ -23,11 +23,15 @@ db = SQLAlchemy(app)
 #导航站
 @app.route('/', methods=['POST', 'GET'])
 def indexPage():
-    ## simple request instance
-    #user_agent = request.headers.get('User-Agent')
-    #return '<p> Welcome back to server Qomolangma.\n \
-    #        Your browser is \n%s, right?</p>' % user_agent
     if request.method == 'POST':
+        user = sqlsession.query(User).filter(User.UName==request.form['UID']).first()
+        if user is not None:
+            if request.form['UPassword'] == user.UPassword:
+                return redirect(url_for('userPage', name=user.UName))
+            else:
+                flash('用户名或密码错误')
+        else:
+            flash('用户不存在')
         session['UID'] = request.form['UID']
         session['UPassword'] = request.form['UPassword']
         return redirect(url_for('indexPage'))
@@ -63,14 +67,15 @@ def registerPage():
     if form.validate_on_submit():
         user = sqlsession.query(User).filter(User.UName==form.name.data).first()
         if user is None:
-            user = User(UName=form.name.data, UPassword = form.password.data, UType=form.user_type.data, UIntro='new user signed up')
+            #新建用户类
+            user = User(UName=form.name.data, 
+                    UPassword = form.password.data, 
+                    UIntro='new user signed up')
             sqlsession.add(user)
             sqlsession.commit()
-            flash('Register successfully!')
+            flash('注册成功！请返回登录界面登录。')
         else:
-            flash('User already exists!')
-    else:
-        flash('Please fill all the blanks!')
+            flash('用户已存在！')
     return render_template('register.html', form = form)
 #用户界面
 @app.route('/user/<name>')
