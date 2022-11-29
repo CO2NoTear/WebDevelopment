@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>首页-珠峰中途营地</title>
-    <link rel="stylesheet" href="CSS/official style.css" />
-    <link rel="stylesheet" href="icon/css/font-awesome.css" />
+	<link rel="stylesheet" href={{url_for('static',filename="CSS/official_style.css")}} />
+    <link rel="stylesheet" href={{url_for('static',filename="icon/css/font-awesome.css")}} />
   </head>
   <body>
     <!--头顶-->
@@ -26,11 +26,11 @@
           style="margin: auto; position: relative; width: 1176px; height: 64px"
         >
             <a href="" style="position: absolute; top: 8px; left: 0px"
-              ><img src="pics/logo.png" alt="回到中途营地" height="48"
+              ><img src={{url_for('static',filename="pics/logo.png")}} alt="回到中途营地" height="48"
             /></a>
           </p>
             <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"
-              ><img src="pics/Lys'head portrait.jpg" alt="我的主页" height="48"
+              ><img src={{url_for('static',filename="pics/Lys_head_portrait.jpg")}} alt="我的主页" height="48"
             /></a>
         </div>
       </div>
@@ -50,7 +50,7 @@
         <div style="position: absolute; margin-top: 64px; width: 1048px">
             <div id="mainpart" style="            width:1024px;
             height:216px;
-            background: black url(pics/background_test.png) no-repeat center center;
+            background: black url({{url_for('static',filename='pics/background_test.png')}}) no-repeat center center;
             background-size: contain;">
 
             </div>

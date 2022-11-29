@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% import "bootstrap/wtf.html" as wtf %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -110,7 +111,7 @@
             /></a>
           </p>
             <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"
-              ><img src="{{url_for('static', filename='pics/logo.png')}}" alt="我的主页" height="48"
+              ><img src="{{url_for('static', filename='pics/Lys_head_portrait.jpg')}}" alt="我的主页" height="48"
             /></a>
         </div>
       </div>
@@ -188,20 +189,10 @@
                 margin-right: 2px;
               "
             >
-              <form action="{{url_for('loginPage')}}" target="_self" method="post">
-                账号：<input
-                  type="text"
-                  name="UID"
-                  style="width: 144px"
-                /><br />
-                密码：<input
-                  type="password"
-                  name="UPassword"
-                  style="width: 144px"
-                /><br />
-                <div style="margin: 0 auto; width: 200px">
-                  <input class="submit" id="btn" type="submit" value="登录" />
-                </div>
+              <form method="post">
+					{{ wtf.quick_form(form) }}
+					<a href="/register">Register</a>
+				{% if feedback %} <br>{{feedback}}</br> {% endif %}
               </form>
             </div>
           </div>

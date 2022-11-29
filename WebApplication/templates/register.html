@@ -1,6 +1,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
 
-{% block content %}
+{% block content%}
 <div class="container">
 	{% for message in get_flashed_messages() %}
 	<div class="alert alert-warning">
@@ -8,8 +9,14 @@
 		{{ message }}
 	</div>
 	{% endfor %}
-	{% block page_content %}{% endblock %}
+	{% block page_content %}
+<div class="col-md-4">
+{{ wtf.quick_form(form) }}
+
+
+<a href="/">去登录</a>
+
+</div>
+	{% endblock %}
 </div>
 {% endblock %}
-{{ wtf.quick_form(form) }}
-<a href="/login">去登录</a>

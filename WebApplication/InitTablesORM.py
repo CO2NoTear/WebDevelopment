@@ -6,6 +6,8 @@ from sqlalchemy import \
         Table, Numeric
 from BuildConnection import engine
 from sqlalchemy.ext.declarative import declarative_base 
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -14,7 +16,7 @@ Base = declarative_base()
 #用户表，主键：UID
 #无外键。 UID作为其他表的重要外键。
 #UName 添加了索引
-class User(Base):
+class User(UserMixin, Base):
     __tablename__ = 'USR'
 
     UID = Column(Integer(), primary_key=True)
@@ -26,6 +28,22 @@ class User(Base):
     UType = Column(Integer(), nullable=False, default=0)
     UIntro = Column(Text(), nullable=False, default = 'No intro.')
     UPNum = Column(Integer(),default=0,nullable=False)
+
+    password_hash = Column(String(128))
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def get_id(self):
+        return str(self.UID)
 
     passages = relationship("Passage", backref="user")
     comments = relationship("Comment", backref='user')
@@ -117,6 +135,7 @@ class Tool(Base):
                 "TLink={self.TLink},"\
                 "TTag={self.TTag},"\
                 "TPermission={self.TPermission})".format(self=self)
+
 
 # 在engine中新建以上表
 if __name__ == "__main__":
