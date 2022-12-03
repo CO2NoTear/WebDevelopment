@@ -6,8 +6,8 @@
     <link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/highlight.js/9.13.0/styles/github-gist.min.css" rel="stylesheet">
+    <link href="icon/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="CSS/official style.css" />
-    <link rel="stylesheet" href="icon/css/font-awesome.css" />
     <link rel="import" href="header.html" id="header">
 </head>
 <body>
@@ -20,7 +20,7 @@
       left: 0rem;
       min-width: 100%;
       height: 64px;
-      z-index: 1993;
+      z-index: 3;
     "
   >
     <div style="display: flex">
@@ -54,7 +54,12 @@
     <div style="position: absolute; margin-top: 64px; width: 1048px">
         <div id="mainpart">
             <form action="https://www.bilibili.com/" target="_self" method="get">
-                <iframe src="editor-naked.html" style="position:relative;top:8px;height: 556px;width: 1000px"></iframe>
+              <textarea style="z-index:2000"></textarea>
+              <script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
+              <script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
+              <script>
+                     var simplemde = new SimpleMDE();
+              </script>
 <div style="margin: 0 auto; width: 200px">
     <input class="submit" id="btn" type="submit" value="提交" />
   </div>
