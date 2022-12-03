@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField, SubmitField, RadioField, \
 from wtforms.validators import DataRequired, AnyOf, Length, Optional, EqualTo
 
 class LoginForm(FlaskForm):
-    name = StringField("用户名", validators=[DataRequired()])
+    name = StringField("账号", validators=[DataRequired()])
     password = PasswordField("密码", validators=[DataRequired()])
     submit = SubmitField('提交')
 

@@ -61,12 +61,26 @@
             z-index: 1000;
           ">
         <div id="mainpart" class="mainl">
-          <a href="">
-            <div>
-              <h1>Hollow</h1>
-              <p class="passage">
-                代码中的搜索框一开始隐藏之后展示的效果主要是通过css过渡效果实现的，我们在一开始的时候把输入框的宽度设定为0，这样在界面上就无法看到这个输入框，然后在移入搜索按钮的时候，就把输入框的宽度改变为正常值，通过transition属性的过渡效果，我们就能够看到图中的展开效果了，并且可以通过设定过渡时间来决定这个展开的时间。
-              </p>
+            <div
+            style="
+              margin-top: 2px;
+              margin-bottom: 2px;
+              margin-left: 2px;
+              margin-right: 2px;
+            "
+          >
+            <div class="wrapper">
+              <!-- 显示一张图片宽高 -->
+              <div class="box">
+                <!-- 显示3张图片的宽高 -->
+                 <!-- 照片自行更换 -->
+                <div class="imgs" >
+                  <a href=""><img src="{{url_for('static', filename='banners/banner1.jpg')}}" alt=""></a>
+                  <a href=""><img src="{{url_for('static', filename='banners/banner2.jpg')}}" alt=""></a>
+                  <a href=""><img src="{{url_for('static', filename='banners/banner3.jpg')}}" alt=""></a>
+                </div>
+              </div>
+              </div>
             </div>
           </a>
         </div>
@@ -75,20 +89,20 @@
         <div id="mainpart" class="mainl" style="height: 64px;">
           <a class="circle" href="" style="position: absolute; top: 8px; left: 8px"><img
               src="{{url_for('static', filename='pics/Lys_head_portrait.jpg')}}" alt="主页" height="48" /></a>
-          <a href="" style="text-align: left;">
-            <h2 class="title">
               {% for comment in comments %}
-              {comment.passage.PTitle}
-              {% endfor %}
+          <a href="{{url_for('passagePage', PassageID = comment.CPID)}}" style="text-align: left;">
+            <h2 class="title">
+              {{comment.passage.PTitle}}
               </h2>
           </a>
-          <a href="" style="text-align: left;">
-            <p class="UName" style="position: absolute; left: 64; margin-top: 20px;">
-              {% for comment in comments %}
-              {comment.user.UName}
               {% endfor %}
+              {% for comment in comments %}
+          <a href="{{url_for('userPage', name = comment.user.UName)}}" style="text-align: left;">
+            <p class="UName" style="position: absolute; left: 64; margin-top: 20px;">
+              {{comment.user.UName}}
             </p>
           </a>
+              {% endfor %}
         </div>
       </div>
 

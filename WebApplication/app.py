@@ -11,6 +11,7 @@ login_manager.session_protection = 'basic'
 login_manager.login_view = 'indexPage'
 
 
+from flask_login import current_user
 from InitTablesORM import session as sqlsession
 #所有表单放到MyForms.py文件里面，用Import导入
 from MyForms import LoginForm, RegisterForm
@@ -56,8 +57,8 @@ def indexPage():
         session['password'] = form.password.data
         return redirect(url_for('indexPage'))
     else:
-        comments = sqlsession.query(Comment).limit(10)
-        passages = sqlsession.query(Passage).limit(10)
+        comments = sqlsession.query(Comment).limit(1)
+        passages = sqlsession.query(Passage).limit(1)
         return render_template('Index.html', form=form, feedback=session.get('feedback'), comments = comments, passages = passages)
 
 #登录界面
@@ -123,6 +124,10 @@ def userPage(name):
         return render_template('404.html'), 404
     if request.method == 'POST':
         existed_user = sqlsession.query(User).filter(User.UName==request.form['UName']).first()
+        if (current_user.UID != user.UID):
+            flash('你不是该用户，不能修改')
+            return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
+
         if existed_user is not None:
             flash('这个用户名已被占用')
             return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
@@ -156,7 +161,11 @@ def clockPage():
 
 @app.route('/passage/<PassageID>')
 def passagePage(PassageID):
-    return render_template('passage.html')
+    passage = sqlsession.query(Passage).filter(Passage.PID==PassageID).first()
+    if passage is None:
+        return redirect('404.html'), 404
+    text = passage.PContent
+    return render_template('passage.html', markdownText = text)
 
 @app.route('/naked-editor')
 def naked_editor():

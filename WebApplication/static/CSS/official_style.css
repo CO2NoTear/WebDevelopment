@@ -131,21 +131,11 @@ input.submit{
   }
   .mainl {
     position: relative;
-    top: 0px;
-    left: 0px;
     width: 796px;
   }
   .mainr {
     position: relative;
-    top: 0px;
-    right: 0px;
     width: 228px;
-  }
-  .mainl {
-    letter-spacing: -999px;
-  }
-  .mainl > a {
-    letter-spacing: 0;
   }
   a {
     display: inline-block;
@@ -216,8 +206,40 @@ input.submit{
   }
   .UName{
     position: absolute;
-    font-size: 8px;
+    font-size: 12px;
     text-align: left;
     top:8px;
     left:64px;
   }
+	.imgs img{
+    width: 780px;
+    height: 482px;
+  }
+  /* 显示一张图片的宽高 */
+  .box{
+    width: 780px;
+    height: 482px;
+    border: none;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  .box .imgs{
+     width: 2271px;	
+     height: 500px;
+     /* 图片不换行 */
+     white-space: nowrap;
+     /* =================== */
+     animation: mybox 6s steps(3) infinite;
+  }
+  
+  @keyframes mybox{
+    /* ================== */
+    0%{
+      transform: translateX(0);
+    }
+    
+    100%{
+      transform: translateX(-2271px);
+    }
+  }
+  
