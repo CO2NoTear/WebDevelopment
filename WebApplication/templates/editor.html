@@ -6,9 +6,9 @@
     <link href="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/highlight.js/9.13.0/styles/github-gist.min.css" rel="stylesheet">
-    <link rel="stylesheet" href={{url_for('static',filename="CSS/official_style.css")}} />
-    <link rel="stylesheet" href={{url_for('static',filename="icon/css/font-awesome.css")}} />
-    <link rel="import" href="{{url_for('naked_editor')}}" id="nake">
+    <link rel="stylesheet" href="{{url_for('static',filename='CSS/official_style.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static',filename='icon/css/font-awesome.css')}}" />
+    <link rel="import" href="header.html" id="header">
 </head>
 <body>
      <!--头顶-->
@@ -28,7 +28,7 @@
          style="margin: auto; position: relative; width: 1176px; height: 64px"
        >
             <a href="/" style="position: absolute; top: 8px; left: 0px"
-              ><img src={{url_for('static',filename="pics/logo.png")}} alt="回到中途营地" height="48"
+              ><img src="{{url_for('static',filename='pics/logo.png')}}" alt="回到中途营地" height="48"
             /></a>
             {% if current_user.is_authenticated %}
             <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img
@@ -47,7 +47,7 @@
         <a class="search-btn" type="submit">
           <i class="fa fa-search" aria-hidden="true"></i>
         </a>
-        <input type="text" class="search-txt" placeholder="搜索" />
+        <input type="text" class="search-txt" placeholder="搜索" name="search_text" />
         <div class="search-line"></div>
       </div>
     </form>
