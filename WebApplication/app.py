@@ -1,4 +1,5 @@
 from fileinput import filename
+from PIL import Image
 from flask import Flask, request, redirect, abort, \
         render_template, url_for, session, flash
 from flask_bootstrap import Bootstrap
@@ -55,7 +56,9 @@ def indexPage():
         session['password'] = form.password.data
         return redirect(url_for('indexPage'))
     else:
-        return render_template('Index.html', form=form, feedback=session.get('feedback'))
+        comments = sqlsession.query(Comment).limit(10)
+        passages = sqlsession.query(Passage).limit(10)
+        return render_template('Index.html', form=form, feedback=session.get('feedback'), comments = comments, passages = passages)
 
 #登录界面
 @app.route('/login', methods=['GET','POST'])
@@ -100,6 +103,8 @@ def registerPage():
                     UIntro='new user signed up')
             sqlsession.add(user)
             sqlsession.commit()
+            img = Image.open('static/potraits/1.jpg')
+            img.save('./static/potraits/'+str(user.UID)+'.jpg')
             flash('注册成功！请返回登录界面登录。')
         else:
             flash('用户已存在！')
@@ -117,11 +122,20 @@ def userPage(name):
     else:
         return render_template('404.html'), 404
     if request.method == 'POST':
-        user.UName = request.form['UName']
-        user.UMoto = request.form['UMoto']
-        img = request.files['UHead']
-        img.save('./static/potraits/'+str(user.UID)+'.jpg')
-        sqlsession.commit()
+        existed_user = sqlsession.query(User).filter(User.UName==request.form['UName']).first()
+        if existed_user is not None:
+            flash('这个用户名已被占用')
+            return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
+        else:
+            user.UName = request.form['UName']
+            user.UMoto = request.form['UMoto']
+            img = request.files['UHead']
+            name = user.UName
+            moto = user.UMoto
+
+            img.save('./static/potraits/'+str(user.UID)+'.jpg')
+            sqlsession.commit()
+            return redirect(url_for('userPage',name=name))
 
     return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
 
@@ -139,6 +153,19 @@ def pageNotFound(e):
 @app.route('/clock')
 def clockPage():
     return render_template('clock.html')
+
+@app.route('/passage/<PassageID>')
+def passagePage(PassageID):
+    return render_template('passage.html')
+
+@app.route('/naked-editor')
+def naked_editor():
+    return render_template('editor-naked.html')
+
+@app.route('/editor', methods=['POST','GET'])
+def passageEditor():
+    print(request.form.keys())
+    return render_template('editor.html')
 
 #测试跳转界面
 @app.route('/jump')

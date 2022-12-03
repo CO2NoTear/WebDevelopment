@@ -26,8 +26,13 @@
         <a href="" style="position: absolute; top: 8px; left: 0px"><img
             src="{{url_for('static', filename='pics/logo.png')}}" alt="回到中途营地" height="48" /></a>
         </p>
+        {% if current_user.is_authenticated %}
+        <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img
+            src="{{url_for('static', filename='potraits/'+[current_user.UID]|join+'.jpg')}}" alt="我的主页" height="48" /></a>
+        {% else %}
         <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img
             src="{{url_for('static', filename='pics/Lys_head_portrait.jpg')}}" alt="我的主页" height="48" /></a>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -71,11 +76,17 @@
           <a class="circle" href="" style="position: absolute; top: 8px; left: 8px"><img
               src="{{url_for('static', filename='pics/Lys_head_portrait.jpg')}}" alt="主页" height="48" /></a>
           <a href="" style="text-align: left;">
-            <h2 class="title">标题</h2>
+            <h2 class="title">
+              {% for comment in comments %}
+              {comment.passage.PTitle}
+              {% endfor %}
+              </h2>
           </a>
           <a href="" style="text-align: left;">
-            <p class="UName" style="position: absolute; left: 64;">
-              用户名
+            <p class="UName" style="position: absolute; left: 64; margin-top: 20px;">
+              {% for comment in comments %}
+              {comment.user.UName}
+              {% endfor %}
             </p>
           </a>
         </div>
