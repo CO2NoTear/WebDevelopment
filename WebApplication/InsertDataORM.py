@@ -11,20 +11,27 @@ from InitTablesORM import User, Passage, Comment, Tool, session
 #         UType=1,
 #         UIntro='test flush')
 # session.add(user_co2)
+# user1 = session.query(User).first()
+# print(user1)
 # passage1 = Passage(
 #     PTitle = 'First Passage',
 #     PContent = '# Hello, markdown.',
-#     PAbstract = "First Passage's abstract"
+#     PAbstract = "First Passage's abstract",
+#     PUID = user1.UID
 # )
 # session.add(passage1)
-user1 = session.query(User).filter(User.UID==1).first()
-passage1 = session.query(Passage).filter(Passage.PID==1).first()
-comment1 = Comment(
-    CUID = user1.UID,
-    CPID = passage1.PID,
-    CContent = 'First comment'
+# comment1 = Comment(
+#     CUID = user1.UID,
+#     CPID = passage1.PID,
+#     CContent = 'First comment'
+# )
+passage2 = Passage(
+    PTitle = 'Second Passage',
+    PContent = '# Hello, markdown.',
+    PAbstract = "Second Passage's abstract",
+    PUID = 1
 )
-session.add(comment1)
-session.commit()
-result = session.query(Comment)
+# session.add(passage2)
+# session.commit()
+result = session.query(Passage).filter(Passage.PTitle.like("%Second%"))
 print(result.all())

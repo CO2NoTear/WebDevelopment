@@ -57,9 +57,8 @@ def indexPage():
         session['password'] = form.password.data
         return redirect(url_for('indexPage'))
     else:
-        comments = sqlsession.query(Comment).limit(1)
-        passages = sqlsession.query(Passage).limit(1)
-        return render_template('Index.html', form=form, feedback=session.get('feedback'), comments = comments, passages = passages)
+        passages = sqlsession.query(Passage).limit(10)
+        return render_template('Index.html', form=form, feedback=session.get('feedback'), passages = passages)
 
 #登录界面
 @app.route('/login', methods=['GET','POST'])
@@ -116,10 +115,12 @@ def registerPage():
 @login_required
 def userPage(name):
     moto = ""
+    intro = ""
     user = sqlsession.query(User).filter(User.UName==name).first()
     if user is not None:
         name = user.UName
         moto = user.UMoto
+        intro = user.UIntro
     else:
         return render_template('404.html'), 404
     if request.method == 'POST':
@@ -142,7 +143,7 @@ def userPage(name):
             sqlsession.commit()
             return redirect(url_for('userPage',name=name))
 
-    return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
+    return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto , markdownText = intro)
 
 #自定义404界面
 @app.errorhandler(404)
@@ -159,13 +160,25 @@ def pageNotFound(e):
 def clockPage():
     return render_template('clock.html')
 
-@app.route('/passage/<PassageID>')
+@app.route('/passage/<PassageID>', methods = ['POST','GET'])
 def passagePage(PassageID):
     passage = sqlsession.query(Passage).filter(Passage.PID==PassageID).first()
     if passage is None:
         return redirect('404.html'), 404
-    text = passage.PContent
-    return render_template('passage.html', markdownText = text)
+    comments = sqlsession.query(Comment)
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return redirect('indexPage')
+        current_passage = sqlsession.query(Passage).filter(Passage.PID==PassageID).first()
+        new_comment = Comment(
+            CUID = current_user.UID,
+            CPID = current_passage.PID,
+            CContent = request.form['commentscontent']
+        )
+        sqlsession.add(new_comment)
+        sqlsession.commit()
+        comments = sqlsession.query(Comment)
+    return render_template('passage.html', passage = passage, comments = comments)
 
 @app.route('/naked-editor')
 def naked_editor():
@@ -175,6 +188,13 @@ def naked_editor():
 def passageEditor():
     print(request.form.keys())
     return render_template('editor.html')
+
+@app.route('/search', methods=['POST', 'GET'])
+def searchPage():
+    passages = sqlsession.query(Passage).limit(10)
+    if request.method == 'POST':
+        passages = sqlsession.query(Passage).filter(Passage.PTitle.like('%'+request.form['search_text']+'%'))
+    return render_template('search.html', passages = passages)
 
 #测试跳转界面
 @app.route('/jump')

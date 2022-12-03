@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>首页-珠峰中途营地</title>
-	<link rel="stylesheet" href="{{url_for('static',filename='CSS/official_style.css')}}"/>
-    <link rel="stylesheet" href="{{url_for('static',filename='icon/css/font-awesome.css')}}" />
+    <link rel="stylesheet" href="CSS/official style.css" />
+    <link rel="stylesheet" href="icon/css/font-awesome.css" />
     <script>
       var dis_alt=false
       function display_alter()
@@ -39,54 +39,45 @@
         <div
           style="margin: auto; position: relative; width: 1176px; height: 64px"
         >
-            <a href="/" style="position: absolute; top: 8px; left: 0px"
-              ><img src="{{url_for('static',filename='pics/logo.png')}}" alt="回到中途营地" height="48"
+            <a href="" style="position: absolute; top: 8px; left: 0px"
+              ><img src="pics/logo.png" alt="回到中途营地" height="48"
             /></a>
-            {% if current_user.is_authenticated %}
-            <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img
-                src="{{url_for('static', filename='potraits/'+[current_user.UID]|join+'.jpg')}}" alt="我的主页" height="48" /></a>
-            {% else %}
-            <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img
-                src="{{url_for('static', filename='pics/Lys_head_portrait.jpg')}}" alt="我的主页" height="48" /></a>
-            {% endif %}
-            
+          </p>
+            <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"
+              ><img src="pics/Lys'head portrait.jpg" alt="我的主页" height="48"
+            /></a>
         </div>
       </div>
     </div>
     <!--搜索框-->>
-    <form target="_self" method="post">
+    <form action="https://www.bilibili.com/" target="_self" method="get">
       <div class="search-box">
         <a class="search-btn" type="submit">
           <i class="fa fa-search" aria-hidden="true"></i>
         </a>
-        <input type="text" class="search-txt" placeholder="搜索" name="search_text" />
+        <input type="text" class="search-txt" placeholder="搜索" />
         <div class="search-line"></div>
       </div>
     </form>
-
-    <div class="main">
-      <div style="position: absolute; margin-top: 64px; width: 1048px">
     <div class="main">
         <div style="position: absolute; margin-top: 64px; width: 1048px">
             <div id="mainpart" style="            width:1048px;
             height:216px;
-            background: black url({{url_for('static',filename='pics/background_test.png')}}) no-repeat center center;
+            background: black url(pics/background_test.png) no-repeat center center;
             background-size: contain;">
     <div id="circle_page" class="circle" style="position: relative; left:8px; top: 112px;">
-    <img src=
-    "{{url_for('static',filename='potraits/'+UID+'.jpg')}}" 
-    alt="我的主页" height="96px"
+    <img src="pics/Lys'head portrait.jpg" alt="我的主页" height="96px"
 /></div>
 <div id="Uname" style="position: relative; left:112px; bottom: 24px;">
-<p style="font-size:40px;color: #fff; text-align: left;">{{UName}}</p>  
+<p style="font-size:40px;color: #fff; text-align: left;">用户名</p>  
 </div>
 <div id="Uname" style="position: relative; left:112px; bottom: 64px;">
-  <p style="font-size:18px;color: #fff; text-align: left;">{{UMoto}}</p>  
+  <p style="font-size:18px;color: #fff; text-align: left;">用户签名</p>  
   </div>
-  <div id="Userpage_buttons" style="position: relative; left:288px; bottom: 100px;">
+  <div id="Userpage_buttons" style="position: relative; left:288px; bottom: 100px;">  
   <a href=""></a><button type="button"class="button"><div style="color: #fff;">编辑我的主页</div></button></a>
   <button type="button"class="button" onclick="display_alter()"><div style="color: #fff;">修改个人信息</div></button>
-  <a href="{{url_for('passageEditor')}}"><button type="button"class="button"><div style="color: #fff;">博客上传</div></button></a>
+  <a href=""><button type="button"class="button"><div style="color: #fff;">博客上传</div></button></a>
   </div>
             </div>
 
@@ -102,14 +93,16 @@
           >
           <div id="mainpart" class="mainl">
                 <div>
+                  IDD
+                  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
                   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-            
                   <div id="content"></div>
-
-                    <script>
-                      document.getElementById('content').innerHTML =
-                        marked.parse('{{markdownText}}');
-                    </script>
+                  
+                  <script>
+                      $.get('MDs/Pages/Test.md', function(response, status, xhr){
+                          $("#content").html(marked(response));
+                      });
+                  </script>
               </div>
           </div></div>
           <div
@@ -135,7 +128,7 @@
                           display: none;
                         "
                       >
-                        <form target="_self" method="post" style="text-align:center" enctype=multipart/form-data>
+                        <form action="" target="_self" method="post" style="text-align:center">
                           <div style="text-align:justify;">
                           用户名：<input
                             type="text"
@@ -143,22 +136,15 @@
                             style="width: 144px"
                           /><br />
                           签名：<input
-                            type="text"
-                            name="UMoto"
+                            type="password"
+                            name=""
                             style="width: 144px"
                           /><br />
                           头像：<input
-                          type="file"
-                          name="UHead"
+                          type="headportrait"
+                          name="Uhead"
                           style="width: 144px"
                         /><br />
-                            <div><font color="red">
-                              <p>
-                              {% for msg in get_flashed_messages() %}
-                              {{msg}}
-                              {% endfor %}
-                              </font></p>
-                            </div>
                           </div>
                           <div style="margin: 0 auto; width: 200px">
                             <input class="submit" id="btn" type="submit" value="修改" />
@@ -169,6 +155,5 @@
         </div>
         </div>
        </div>
-
   </body>
 </html>

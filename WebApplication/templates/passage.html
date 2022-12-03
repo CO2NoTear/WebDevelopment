@@ -36,15 +36,15 @@
     </div>
     <!--搜索框-->>
   <!--TODO:更新为搜索文章-->
-    <form action="https://www.bilibili.com/" target="_self" method="get">
-      <div class="search-box">
-        <a class="search-btn" type="submit">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </a>
-        <input type="text" class="search-txt" placeholder="搜索" />
-        <div class="search-line"></div>
-      </div>
-    </form>
+  <form action="https://www.bilibili.com/" target="_self" method="get">
+    <div class="search-box">
+      <a class="search-btn" type="submit">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </a>
+      <input type="text" class="search-txt" placeholder="搜索" />
+      <div class="search-line"></div>
+    </div>
+  </form>
 
     <div class="main">
       <div style="position: absolute; margin-top: 64px; width: 1048px">
@@ -62,33 +62,55 @@
           "
         >
           <div id="mainpart" class="mainl">
+            <div
+            style="
+              margin-top: 2px;
+              margin-bottom: 2px;
+              margin-left: 2px;
+              margin-right: 2px;
+            "
+          >
             <div id="content"></div>
             <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
             <script>
               document.getElementById('content').innerHTML =
-                marked.parse('{{markdownText}}');
+                marked.parse('# {{passage.PTitle}}\n\n{{passage.PContent}}');
             </script>
             
 
-          <!--博客区-->
-          <div id="mainpart" class="mainl" style="height: 64px;">
-          <a class="circle" href="" style="position: absolute; top: 8px; left: 8px"><img
-              src="{{url_for('static', filename='pics/Lys_head_portrait.jpg')}}" alt="主页" height="48" /></a>
-          <a href="" style="text-align: left;">
-            <h2 class="title">
-              {% for comment in comments %}
-              {comment.passage.PTitle}
-              {% endfor %}
-              </h2>
-              </a>
-              <a href="" style="text-align: left;">
-            <p class="UName" style="position: absolute; left: 64; margin-top: 20px;">
-              {% for comment in comments %}
-              {comment.user.UName}
-              {% endfor %}
-                </p>
-          </a>
+          
+
+
+          <!--make comments-->
+          <div id="mainpart" class="mainl" style="height:fit-content;">
+            <form target="_self" method="post">
+              <textarea type="text" name="commentscontent"
+                style="position:relative;width: 764px;height: 7em; top: 16px;"></textarea>
+          
+              <div style="margin: 0 auto; width: 200px">
+                <input class="submit" id="btn" type="submit" value="发表" />
+              </div>
+            </form>
           </div>
+
+          <!--comments-->
+          {% for comment in comments %}
+          <div id="mainpart" class="mainl" style="height:fit-content; position: relative;">
+            <a class="circle" href="{{url_for('userPage', name = comment.user.UName)}}" style="position: absolute; top: 8px; left: 8px"
+            ><img src="{{url_for('static', filename='potraits/'+ [comment.user.UID]|join +'.jpg')}}" alt="主页" height="48"
+          /></a>
+              <a href="{{url_for('userPage', name = comment.user.UName)}}" style="text-align: left;">
+                <p class="UName_comments" style="position: absolute; left: 64px;">
+                  {{comment.user.UName}}
+                </p>
+              </a>
+              <!--detailed-->
+              <p class="UName_comments" style="position: relative;">
+              {{comment.CContent}}
+              </p>
+              {% endfor %}
+          </div>
+        </div>
 
         </div>
 

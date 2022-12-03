@@ -37,16 +37,15 @@
     </div>
   </div>
   <!--搜索框-->>
-  <!--TODO:更新为搜索文章-->
-  <form action="https://www.bilibili.com/" target="_self" method="get">
-    <div class="search-box">
-      <a class="search-btn" type="submit">
-        <i class="fa fa-search" aria-hidden="true"></i>
-      </a>
-      <input type="text" class="search-txt" placeholder="搜索" />
-      <div class="search-line"></div>
-    </div>
-  </form>
+    <form target="_self" method="get">
+      <div class="search-box">
+        <a class="search-btn" type="submit">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </a>
+        <input type="text" class="search-txt" placeholder="搜索" />
+        <div class="search-line"></div>
+      </div>
+    </form>
 
   <div class="main">
     <div style="position: absolute; margin-top: 64px; width: 1048px">
@@ -86,24 +85,22 @@
         </div>
 
         <!--博客区-->
-        <div id="mainpart" class="mainl" style="height: 64px;">
+        {% for passage in passages %}
+        <div id="mainpart" class="mainl" style="height: 64px; ">
           <a class="circle" href="" style="position: absolute; top: 8px; left: 8px"><img
-              src="{{url_for('static', filename='pics/Lys_head_portrait.jpg')}}" alt="主页" height="48" /></a>
-              {% for comment in comments %}
-          <a href="{{url_for('passagePage', PassageID = comment.CPID)}}" style="text-align: left;">
+              src="{{url_for('static', filename='potraits/'+ [passage.user.UID]|join +'.jpg')}}" alt="主页" height="48" /></a>
+          <a href="{{url_for('passagePage', PassageID = passage.PID)}}" style="text-align: left;">
             <h2 class="title">
-              {{comment.passage.PTitle}}
+              {{passage.PTitle}}
               </h2>
           </a>
-              {% endfor %}
-              {% for comment in comments %}
-          <a href="{{url_for('userPage', name = comment.user.UName)}}" style="text-align: left;">
+          <a href="{{url_for('userPage', name = passage.user.UName)}}" style="text-align: left;">
             <p class="UName" style="position: absolute; left: 64; margin-top: 20px;">
-              {{comment.user.UName}}
+              {{passage.user.UName}}
             </p>
           </a>
-              {% endfor %}
         </div>
+              {% endfor %}
       </div>
 
 
