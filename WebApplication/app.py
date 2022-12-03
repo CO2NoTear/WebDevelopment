@@ -1,3 +1,4 @@
+from fileinput import filename
 from flask import Flask, request, redirect, abort, \
         render_template, url_for, session, flash
 from flask_bootstrap import Bootstrap
@@ -104,16 +105,25 @@ def registerPage():
             flash('用户已存在！')
     return render_template('register.html', form = form)
 #用户界面
-@app.route('/user/<name>')
+@app.route('/user/<name>', methods=['POST','GET'])
 #it gave a var name to func
 @login_required
 def userPage(name):
-    #Here we test abort() for user validation checking
-    #if name != 'CO2NoTear':
-    #   #Noticing that this would throw ERROR expection and quit
-    #   #just like normally 404 NOT FOUND
-    #   abort(404)
-    return render_template('usrpage.html', name = name)
+    moto = ""
+    user = sqlsession.query(User).filter(User.UName==name).first()
+    if user is not None:
+        name = user.UName
+        moto = user.UMoto
+    else:
+        return render_template('404.html'), 404
+    if request.method == 'POST':
+        user.UName = request.form['UName']
+        user.UMoto = request.form['UMoto']
+        img = request.files['UHead']
+        img.save('./static/potraits/'+str(user.UID)+'.jpg')
+        sqlsession.commit()
+
+    return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
 
 #自定义404界面
 @app.errorhandler(404)
@@ -126,6 +136,9 @@ def pageNotFound(e):
     # a absolute url, HOWEVER, its IP address is 0.0.0.0, namely
     # unable to use simply in the links.
 
+@app.route('/clock')
+def clockPage():
+    return render_template('clock.html')
 
 #测试跳转界面
 @app.route('/jump')
