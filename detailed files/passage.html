@@ -71,34 +71,44 @@
               margin-right: 2px;
             "
           >
-            <div class="wrapper">
-              <!-- 显示一张图片宽高 -->
-              <div class="box">
-                <!-- 显示3张图片的宽高 -->
-                 <!-- 照片自行更换 -->
-                <div class="imgs" >
-                  <a href=""><img src="banners/banner1.jpg" alt=""></a>
-                  <a href=""><img src="banners/banner2.jpg" alt=""></a>
-                  <a href=""><img src="banners/banner3.jpg" alt=""></a>
-                </div>
-              </div>
-              </div>
+          <div id="content"></div>
+          <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+          <script>
+            document.getElementById('content').innerHTML =
+              marked.parse('# Marked in the browser\n\nRendered by **marked**.');
+          </script>
             </div>
           </div>
 
-          <!--博客区-->
-          <div id="mainpart" class="mainl" style="height: 64px;">
+          <!--make comments-->
+          <div id="mainpart" class="mainl" style="height:fit-content;">
+            <form action="" target="_self" method="post">
+              <textarea
+                type="text"
+                name="commentscontent"
+                style="position:relative;width: 764px;height: 7em; top: 16px;"
+              ></textarea>
+
+              <div style="margin: 0 auto; width: 200px">
+                <input class="submit" id="btn" type="submit" value="发表" />
+              </div>
+            </form>
+          </div>
+
+          <!--comments-->
+          <div id="mainpart" class="mainl" style="height:fit-content;">
             <a class="circle" href="" style="position: absolute; top: 8px; left: 8px"
             ><img src="pics/Lys'head portrait.jpg" alt="主页" height="48"
           /></a>
-          <a href="" style="text-align: left;">
-                  <h2 class="title">标题</h2>
-              </a>
               <a href="" style="text-align: left;">
-                <p class="UName" style="position: absolute; left: 64;">
+                <p class="UName_comments" style="position: absolute; left: 64px;">
                   用户名
                 </p>
               </a>
+              <!--detailed-->
+              <p class="comments" style="position: relative; right: 280px;">
+                进行一个评论的发 
+              </p>
           </div>
         </div>
 
@@ -123,21 +133,11 @@
                 margin-right: 2px;
               "
             >
-              <form action="" target="_self" method="post">
-                账号：<input
-                  type="text"
-                  name="UID"
-                  style="width: 144px"
-                /><br />
-                密码：<input
-                  type="password"
-                  name="UPassword"
-                  style="width: 144px"
-                /><br />
-                <div style="margin: 0 auto; width: 200px">
-                  <input class="submit" id="btn" type="submit" value="登录" />
-                </div>
-              </form>
+            <a id="author" href="" style="text-align: center;">
+              <div id="blank" style="height: 34px;"></div>
+              <div class="circle"><img src="pics/Lys'head portrait.jpg" height="160"></div>
+              <h2>用户名</h2>
+            </a>
             </div>
           </div>
           <div id="mainpart" class="mainr">
