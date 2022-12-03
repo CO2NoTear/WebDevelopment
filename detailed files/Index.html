@@ -7,86 +7,7 @@
     <title>首页-珠峰中途营地</title>
     <link rel="stylesheet" href="CSS/official style.css" />
     <link rel="stylesheet" href="icon/css/font-awesome.css" />
-    <style>
-      [id="mainpart"] {
-        margin-left: 0rem;
-        margin-top: 1rem;
-      }
-      h1.title {
-        position: absolute;
-        top: 5px;
-        font-size: 20px;
-      }
-      h2.title {
-        position: absolute;
-        left: 36px;
-        font-size: 18px;
-      }
-      p.passage {
-        left: 0px;
-        font-size: 14px;
-        text-indent:2em;
-      }
-      p.name{
-        font-size: 8px;
-      }
-      div.tag {
-        font-size: 12px;
-      }
-      .main {
-        width: 1048px;
-        height: min-content;
-        line-height: 40px;
-        margin: 0 auto;
-      }
-      .mainl {
-        position: relative;
-        top: 0px;
-        left: 0px;
-        width: 796px;
-      }
-      .mainr {
-        position: relative;
-        top: 0px;
-        right: 0px;
-        width: 228px;
-      }
-      .mainl {
-        letter-spacing: -999px;
-      }
-      .mainl > a {
-        letter-spacing: 0;
-      }
-      a {
-        display: inline-block;
-        height: min-content;
-      }
-      a:link {
-        color: black;
-        text-decoration: none;
-      }
-      a:visited {
-        color: black;
-        text-decoration: none;
-      }
-      a:hover {
-        color: skyblue;
-        text-decoration: none;
-      }
-      a:active {
-        color: blue;
-        text-decoration: none;
-      }
-      .circle {
-        border-radius: 100%;
-        overflow: hidden;
-        width: 48px;
-        height: 48px;
-      }
-      .circle img {
-        height: 100%;
-      }
-    </style>
+    <link rel="stylesheet" href="CSS/swiper.css">
   </head>
   <body>
     <!--头顶-->
@@ -142,30 +63,45 @@
           "
         >
           <div id="mainpart" class="mainl">
-            <a href="">
-              <div>
-                <h1>Hollow</h1>
-                <p class="passage">
-                  代码中的搜索框一开始隐藏之后展示的效果主要是通过css过渡效果实现的，我们在一开始的时候把输入框的宽度设定为0，这样在界面上就无法看到这个输入框，然后在移入搜索按钮的时候，就把输入框的宽度改变为正常值，通过transition属性的过渡效果，我们就能够看到图中的展开效果了，并且可以通过设定过渡时间来决定这个展开的时间。
-                </p>
+            <div
+            style="
+              margin-top: 2px;
+              margin-bottom: 2px;
+              margin-left: 2px;
+              margin-right: 2px;
+            "
+          >
+            <div class="wrapper">
+              <!-- 显示一张图片宽高 -->
+              <div class="box">
+                <!-- 显示3张图片的宽高 -->
+                 <!-- 照片自行更换 -->
+                <div class="imgs" >
+                  <a href=""><img src="banners/banner1.jpg" alt=""></a>
+                  <a href=""><img src="banners/banner2.jpg" alt=""></a>
+                  <a href=""><img src="banners/banner3.jpg" alt=""></a>
+                </div>
               </div>
-            </a>
+              </div>
+            </div>
           </div>
 
           <!--博客区-->
-          <div id="mainpart" class="mainl">
-              <a href="">
-                <div>
-                <p class="passage">
-                代价为彩笔
+          <div id="mainpart" class="mainl" style="height: 64px;">
+            <a class="circle" href="" style="position: absolute; top: 8px; left: 8px"
+            ><img src="pics/Lys'head portrait.jpg" alt="主页" height="48"
+          /></a>
+          <a href="" style="text-align: left;">
+                  <h2 class="title">标题</h2>
+              </a>
+              <a href="" style="text-align: left;">
+                <p class="UName" style="position: absolute; left: 64;">
+                  用户名
                 </p>
-              </div>
               </a>
           </div>
-
-
-
         </div>
+
 
         <div
           id="rightpart"
@@ -204,9 +140,20 @@
               </form>
             </div>
           </div>
+          <div id="mainpart" class="mainr">
+            <div
+              style="
+                margin-top: 2px;
+                margin-bottom: 2px;
+                margin-left: 2px;
+                margin-right: 2px;
+                text-align: center ;
+              "
+            >
+              <iframe frameborder="no" src="clock.html" style="position:relative;width: 172px; height: 172px; top: 8px"></iframe>
+            </div>
+          </div>
       </div>
-
-
     </div>
   </body>
 </html>

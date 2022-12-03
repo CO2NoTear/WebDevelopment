@@ -108,7 +108,8 @@ input.submit{
   }
   h2.title {
     position: absolute;
-    left: 36px;
+    left: 64px;
+    bottom: 6px;
     font-size: 18px;
   }
   p.passage {
@@ -130,21 +131,11 @@ input.submit{
   }
   .mainl {
     position: relative;
-    top: 0px;
-    left: 0px;
     width: 796px;
   }
   .mainr {
     position: relative;
-    top: 0px;
-    right: 0px;
     width: 228px;
-  }
-  .mainl {
-    letter-spacing: -999px;
-  }
-  .mainl > a {
-    letter-spacing: 0;
   }
   a {
     display: inline-block;
@@ -166,12 +157,89 @@ input.submit{
     color: blue;
     text-decoration: none;
   }
-  .circle {
+  a.circle {
     border-radius: 100%;
     overflow: hidden;
     width: 48px;
     height: 48px;
   }
+  [id="circle_page"]{
+    border-radius: 100%;
+    overflow: hidden;
+    width: 96px;
+    height: 96px;
+  }
   .circle img {
     height: 100%;
   }
+  :root{
+    --primary-color:royalblue;
+  }
+  .button{
+    padding: 5px 16px;
+    color: #000000d9;
+    border: 1px solid #d9d9d9;
+    background-color: transparent;
+    border-radius: 2px;
+    line-height: 1.4;
+    box-shadow: 0 2px #00000004;
+    cursor: pointer;
+    transition: .3s;
+    height:30px;
+    width:150px;
+  }
+  .button:hover{
+    color: var(--primary-color);
+    border-color: currentColor;
+  }
+  .button::after{
+    /*其他样式*/
+    opacity: 0;
+    box-shadow: 0 0 0 6px var(--primary-color);
+    transition: .3s;
+  }
+  /*点击*/
+  .button:active::after{
+    box-shadow: none;
+    opacity: 0.4;
+    transition: 0s; /*取消过渡*/
+  }
+  .UName{
+    position: absolute;
+    font-size: 12px;
+    text-align: left;
+    top:8px;
+    left:64px;
+  }
+	.imgs img{
+    width: 780px;
+    height: 482px;
+  }
+  /* 显示一张图片的宽高 */
+  .box{
+    width: 780px;
+    height: 482px;
+    border: none;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  .box .imgs{
+     width: 2271px;	
+     height: 500px;
+     /* 图片不换行 */
+     white-space: nowrap;
+     /* =================== */
+     animation: mybox 6s steps(3) infinite;
+  }
+  
+  @keyframes mybox{
+    /* ================== */
+    0%{
+      transform: translateX(0);
+    }
+    
+    100%{
+      transform: translateX(-2271px);
+    }
+  }
+  
