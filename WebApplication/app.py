@@ -165,19 +165,18 @@ def passagePage(PassageID):
     passage = sqlsession.query(Passage).filter(Passage.PID==PassageID).first()
     if passage is None:
         return redirect('404.html'), 404
-    comments = sqlsession.query(Comment)
+    comments = passage.comments
     if request.method == 'POST':
         if not current_user.is_authenticated:
             return redirect('indexPage')
-        current_passage = sqlsession.query(Passage).filter(Passage.PID==PassageID).first()
         new_comment = Comment(
             CUID = current_user.UID,
-            CPID = current_passage.PID,
+            CPID = passage.PID,
             CContent = request.form['commentscontent']
         )
         sqlsession.add(new_comment)
         sqlsession.commit()
-        comments = sqlsession.query(Comment)
+        comments = passage.comments
     return render_template('passage.html', passage = passage, comments = comments)
 
 @app.route('/naked-editor')
@@ -185,8 +184,20 @@ def naked_editor():
     return render_template('editor-naked.html')
 
 @app.route('/editor', methods=['POST','GET'])
+@login_required
 def passageEditor():
     print(request.form.keys())
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            current_passage = Passage(
+                PTitle = request.form['PTitle'],
+                PContent = request.form['passageContent'],
+                PAbstract = 'default abstract',
+                PUID = current_user.UID
+            )
+            sqlsession.add(current_passage)
+            sqlsession.commit()
+            return redirect(url_for('indexPage'))
     return render_template('editor.html')
 
 @app.route('/search', methods=['POST', 'GET'])

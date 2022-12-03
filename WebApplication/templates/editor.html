@@ -20,7 +20,7 @@
        left: 0rem;
        min-width: 100%;
        height: 64px;
-       z-index: 1993;
+      z-index: 3;
      "
    >
      <div style="display: flex">
@@ -57,9 +57,15 @@
    <div class="main">
     <div style="position: absolute; margin-top: 64px; width: 1048px">
         <div id="mainpart">
-            <form target="_self" method="get">
-                <iframe src="{{url_for('naked_editor')}}" style="position:relative;top:8px;height: 556px;width: 1000px"></iframe>
+            <form target="_self" method="post">
+              <textarea style="z-index:2000" name="passageContent"></textarea>
+              <script src="https://cdn.bootcss.com/simplemde/1.11.2/simplemde.min.js"></script>
+              <script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
+              <script>
+                     var simplemde = new SimpleMDE();
+              </script>
 <div style="margin: 0 auto; width: 200px">
+    文章标题:<input class="title" id="PTitle" type="text" name="PTitle" />
     <input class="submit" id="btn" type="submit" value="提交" />
   </div>
 </form>
