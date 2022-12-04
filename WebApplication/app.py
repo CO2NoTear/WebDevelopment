@@ -192,6 +192,8 @@ def passagePage(PassageID):
 def naked_editor():
     return render_template('editor-naked.html')
 
+
+
 @app.route('/editor/<target>', methods=['POST','GET'])
 @login_required
 def passageEditor(target):
@@ -199,7 +201,7 @@ def passageEditor(target):
         if target == 'passage':
             current_passage = Passage(
                 PTitle = request.form['PTitle'],
-                PContent = request.form['passageContent'],
+                PContent = request.form['passageContent'].replace('\r\n', r'\n\n'),
                 PAbstract = 'default abstract',
                 PUID = current_user.UID
             )
