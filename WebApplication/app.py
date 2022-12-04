@@ -125,7 +125,10 @@ def userPage(name):
     if user is None:
         return render_template('404.html'), 404
     if request.method == 'POST':
-        existed_user = sqlsession.query(User).filter(User.UName==request.form['UName']).first()
+        if request.form['UName'] != "":
+            existed_user = sqlsession.query(User).filter(User.UName==request.form['UName']).first()
+        else:
+            existed_user = None
         if current_user.UID != user.UID:
             flash('你不是该用户，不能修改')
             return redirect(url_for('userPage', name=name))
