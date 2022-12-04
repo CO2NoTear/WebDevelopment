@@ -31,7 +31,7 @@
               ><img src="{{url_for('static',filename='pics/logo.png')}}" alt="回到中途营地" height="48"
             /></a>
             {% if current_user.is_authenticated %}
-            <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img
+		<a class="circle" href="{{url_for('userPage', name = current_user.UName)}}" style="position: absolute; top: 8px; right: 0px"><img
                 src="{{url_for('static', filename='potraits/'+[current_user.UID]|join+'.jpg')}}" alt="我的主页" height="48" /></a>
             {% else %}
             <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img

@@ -118,40 +118,35 @@ def ilegal_UName(UName):
 #it gave a var name to func
 @login_required
 def userPage(name):
-    moto = ""
-    intro = ""
     user = sqlsession.query(User).filter(User.UName==name).first()
-    if user is not None:
-        name = user.UName
-        moto = user.UMoto
-        intro = user.UIntro
-    else:
+    if user is None:
         return render_template('404.html'), 404
     if request.method == 'POST':
         existed_user = sqlsession.query(User).filter(User.UName==request.form['UName']).first()
-        if request.form['UName'] != "" and current_user.UID != user.UID:
+        if current_user.UID != user.UID:
             flash('你不是该用户，不能修改')
-            return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
+            return redirect(url_for('userPage', name=name))
 
-        if request.form['UName'] != "" and existed_user is not None:
+        if existed_user is not None and existed_user.UID != user.UID:
             flash('这个用户名已被占用')
-            return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
+            return redirect(url_for('userPage', name=name))
         else:
             if request.form['UName'] != "" and ilegal_UName(request.form['UName']):
                 flash('非法用户名！')
             else:
                 if request.form['UName'] != "": 
                     user.UName = request.form['UName']
-                user.UMoto = request.form['UMoto']
-                img = request.files['UHead']
-                name = user.UName
-                moto = user.UMoto
-
-                img.save('./static/potraits/'+str(user.UID)+'.jpg')
+                    name = request.form['UName']
+                if request.form['UMoto'] != "":
+                    user.UMoto = request.form['UMoto']
+                img = request.files.get('UHead')
+                if img.filename != "":
+                    img.save('./static/potraits/'+str(user.UID)+'.jpg')
+                sqlsession.add(user)
                 sqlsession.commit()
             return redirect(url_for('userPage',name=name))
 
-    return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto , markdownText = intro)
+    return render_template('usrpage.html',UID = str(user.UID), user=user)
 
 #自定义404界面
 @app.errorhandler(404)
