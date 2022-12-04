@@ -54,7 +54,10 @@ def indexPage():
                 flash('用户名或密码错误')
         return redirect(url_for('indexPage'))
     else:
-        passages = sqlsession.query(Passage).limit(10)
+        if request.method == 'POST' and request.form['search_text'] != "":
+            passages = sqlsession.query(Passage).filter(Passage.PTitle.like('%'+request.form['search_text']+'%'))
+        else:
+            passages = sqlsession.query(Passage).limit(10)
         return render_template('Index.html', form=form, passages = passages)
 
 #登录界面
@@ -208,7 +211,7 @@ def passageEditor():
 @app.route('/search', methods=['POST', 'GET'])
 def searchPage():
     passages = sqlsession.query(Passage).limit(10)
-    if request.method == 'POST':
+    if request.method == 'POST' and request.form['search_text'] != "":
         passages = sqlsession.query(Passage).filter(Passage.PTitle.like('%'+request.form['search_text']+'%'))
     return render_template('search.html', passages = passages)
 
