@@ -1,4 +1,3 @@
-from fileinput import filename
 from PIL import Image
 from flask import Flask, request, redirect, abort, \
         render_template, url_for, session, flash
@@ -46,19 +45,17 @@ def indexPage():
         user = sqlsession.query(User).filter(User.UName==form.name.data).first()
         #新用户
         if user is None:
-            session['feedback']='用户名不存在！'
+            flash('用户名不存在！')
         else:
             if user.UPassword == form.password.data:
                 login_user(user, False)
                 return redirect(request.args.get('next') or url_for('userPage', name=user.UName))
             else:
-                session['feedback'] = '用户名或密码错误'
-        session['name'] = form.name.data
-        session['password'] = form.password.data
+                flash('用户名或密码错误')
         return redirect(url_for('indexPage'))
     else:
         passages = sqlsession.query(Passage).limit(10)
-        return render_template('Index.html', form=form, feedback=session.get('feedback'), passages = passages)
+        return render_template('Index.html', form=form, passages = passages)
 
 #登录界面
 @app.route('/login', methods=['GET','POST'])
@@ -109,6 +106,13 @@ def registerPage():
         else:
             flash('用户已存在！')
     return render_template('register.html', form = form)
+
+
+def ilegal_UName(UName):
+    if len(UName)<3 or len(UName)>20:
+        return True
+    else:
+        return False
 #用户界面
 @app.route('/user/<name>', methods=['POST','GET'])
 #it gave a var name to func
@@ -125,22 +129,26 @@ def userPage(name):
         return render_template('404.html'), 404
     if request.method == 'POST':
         existed_user = sqlsession.query(User).filter(User.UName==request.form['UName']).first()
-        if (current_user.UID != user.UID):
+        if request.form['UName'] != "" and current_user.UID != user.UID:
             flash('你不是该用户，不能修改')
             return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
 
-        if existed_user is not None:
+        if request.form['UName'] != "" and existed_user is not None:
             flash('这个用户名已被占用')
             return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto )
         else:
-            user.UName = request.form['UName']
-            user.UMoto = request.form['UMoto']
-            img = request.files['UHead']
-            name = user.UName
-            moto = user.UMoto
+            if request.form['UName'] != "" and ilegal_UName(request.form['UName']):
+                flash('非法用户名！')
+            else:
+                if request.form['UName'] != "": 
+                    user.UName = request.form['UName']
+                user.UMoto = request.form['UMoto']
+                img = request.files['UHead']
+                name = user.UName
+                moto = user.UMoto
 
-            img.save('./static/potraits/'+str(user.UID)+'.jpg')
-            sqlsession.commit()
+                img.save('./static/potraits/'+str(user.UID)+'.jpg')
+                sqlsession.commit()
             return redirect(url_for('userPage',name=name))
 
     return render_template('usrpage.html',UID = str(user.UID), UName = name, UMoto = moto , markdownText = intro)
@@ -186,7 +194,6 @@ def naked_editor():
 @app.route('/editor', methods=['POST','GET'])
 @login_required
 def passageEditor():
-    print(request.form.keys())
     if request.method == 'POST':
         if current_user.is_authenticated:
             current_passage = Passage(

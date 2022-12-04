@@ -27,7 +27,7 @@
             src="{{url_for('static', filename='pics/logo.png')}}" alt="回到中途营地" height="48" /></a>
         </p>
         {% if current_user.is_authenticated %}
-        <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img
+		<a class="circle" href="{{url_for('userPage', name = current_user.UName)}}" style="position: absolute; top: 8px; right: 0px"><img
             src="{{url_for('static', filename='potraits/'+[current_user.UID]|join+'.jpg')}}" alt="我的主页" height="48" /></a>
         {% else %}
         <a class="circle" href="" style="position: absolute; top: 8px; right: 0px"><img
@@ -118,12 +118,20 @@
                 margin-left: 2px;
                 margin-right: 2px;
               ">
+			{% if current_user.is_authenticated == False%}
             <form method="post">
               {{ wtf.quick_form(form) }}
               <a href="/register">Register</a>
-              {% if feedback %} <br>{{feedback}}</br> {% endif %}
+			  {% for msg in get_flashed_messages() %}
+			  <br> {{msg}} </br>
+			  {% endfor %}
             </form>
+		  {% else %}
+		  <br>欢迎！{{current_user.UName}}</br>
+		  <a href="/logout">登出</a>
+		  {% endif %}
           </div>
+
         </div>
         <div id="mainpart" class="mainr">
           <div style="
