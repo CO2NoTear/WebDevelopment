@@ -84,9 +84,9 @@
   <p style="font-size:18px;color: #fff; text-align: left;">{{user.UMoto}}</p>  
   </div>
   <div id="Userpage_buttons" style="position: relative; left:288px; bottom: 100px;">
-  <a href=""></a><button type="button"class="button"><div style="color: #fff;">编辑我的主页</div></button></a>
+  <a href="{{url_for('passageEditor', target='intro')}}"><button type="button"class="button"><div style="color: #fff;">编辑我的主页</div></button></a>
   <button type="button"class="button" onclick="display_alter()"><div style="color: #fff;">修改个人信息</div></button>
-  <a href="{{url_for('passageEditor')}}"><button type="button"class="button"><div style="color: #fff;">博客上传</div></button></a>
+  <a href="{{url_for('passageEditor', target='passage')}}"><button type="button"class="button"><div style="color: #fff;">博客上传</div></button></a>
   </div>
             </div>
 

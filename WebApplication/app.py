@@ -189,11 +189,11 @@ def passagePage(PassageID):
 def naked_editor():
     return render_template('editor-naked.html')
 
-@app.route('/editor', methods=['POST','GET'])
+@app.route('/editor/<target>', methods=['POST','GET'])
 @login_required
-def passageEditor():
+def passageEditor(target):
     if request.method == 'POST':
-        if current_user.is_authenticated:
+        if target == 'passage':
             current_passage = Passage(
                 PTitle = request.form['PTitle'],
                 PContent = request.form['passageContent'],
@@ -203,6 +203,11 @@ def passageEditor():
             sqlsession.add(current_passage)
             sqlsession.commit()
             return redirect(url_for('indexPage'))
+        elif target == 'intro':
+            current_user.UIntro = request.form['passageContent']
+            sqlsession.add(current_user)
+            sqlsession.commit()
+            return redirect(url_for('userPage', name = current_user.UName))
     return render_template('editor.html')
 
 @app.route('/search', methods=['POST', 'GET'])
