@@ -5,7 +5,9 @@ Markov chain：![img](https://bkimg.cdn.bcebos.com/formula/3a06cda4e3f2edd659610
 =无后效性：第t+1部在给定第t步时与1-t-1步无关
 
 我今天分享的题目是Deep Unsupervised Learning using
-
+$$
+\sin\alpha + \cos\beta = \arctan\theta\\
+$$
 Nonequilibrium Thermodynamics
 
 译为非平衡态热力学在深度无监督学习上的的运用

@@ -47,7 +47,7 @@ def indexPage():
         if user is None:
             flash('用户名不存在！')
         else:
-            if user.UPassword == form.password.data:
+            if user.verify_password(form.password.data):
                 login_user(user, False)
                 return redirect(request.args.get('next') or url_for('userPage', name=user.UName))
             else:

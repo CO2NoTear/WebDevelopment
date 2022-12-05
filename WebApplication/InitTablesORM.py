@@ -21,7 +21,6 @@ class User(UserMixin, Base):
 
     UID = Column(Integer(), primary_key=True)
     UName = Column(String(64), nullable=False, unique=True, index=True)
-    UPassword = Column(String(256), nullable=False)
     UMoto = Column(String(256), nullable=False, default='Lazy guy with nothing left here.')
     ULevel = Column(Integer(), nullable=False, default=1)
     UExp = Column(Integer(), nullable=False,default=0)
@@ -32,11 +31,11 @@ class User(UserMixin, Base):
     password_hash = Column(String(128))
 
     @property
-    def password(self):
+    def UPassword(self):
         raise AttributeError('password is not a readable attribute')
 
-    @password.setter
-    def password(self, password):
+    @UPassword.setter
+    def UPassword(self, password):
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
