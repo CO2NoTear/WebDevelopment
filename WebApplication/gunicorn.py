@@ -9,9 +9,3 @@ thread = 2
 worker_class = 'gevent'
 # 设置最大并发量
 worker_connections = 2000
-# 设置访问日志和错误信息日志路径
-ccesslog = './log/gunicorn_acess.log'
-errorlog = './log/gunicorn_error.log'
-#设置这个值为true 才会把打印信息记录到错误日志里
-capture_output = True
-# 设置日志记录水平

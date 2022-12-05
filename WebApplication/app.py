@@ -209,7 +209,7 @@ def passageEditor(target):
             sqlsession.commit()
             return redirect(url_for('indexPage'))
         elif target == 'intro':
-            current_user.UIntro = request.form['passageContent']
+            current_user.UIntro = request.form['passageContent'].replace('\r\n', r'\n\n')
             sqlsession.add(current_user)
             sqlsession.commit()
             return redirect(url_for('userPage', name = current_user.UName))
