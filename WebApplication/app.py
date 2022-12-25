@@ -222,6 +222,17 @@ def searchPage():
         passages = sqlsession.query(Passage).filter(Passage.PTitle.like('%'+request.form['search_text']+'%'))
     return render_template('search.html', passages = passages)
 
+@app.route('/delete/<comment_id>')
+def deleteComment(comment_id):
+    comment_to_delete = sqlsession.query(Comment).filter(Comment.CID == comment_id).first()
+    back_passage = None
+    if comment_to_delete is not None:
+        back_passage = comment_to_delete.passage
+        sqlsession.query(Comment).filter(Comment.CID == comment_id).delete()
+        sqlsession.commit()
+        return redirect(url_for('passagePage', PassageID = back_passage.PID))
+    return redirect('404.html'), 404
+
 #测试跳转界面
 @app.route('/jump')
 def jumpToIndex():

@@ -107,6 +107,9 @@
               <p class="UName_comments" style="position: relative;">
               {{comment.CContent}}
               </p>
+				<a href="{{url_for("deleteComment", comment_id=comment.CID)}}">
+					删除
+				</a>
           </div>
               {% endfor %}
         </div>
